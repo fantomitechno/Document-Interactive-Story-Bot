@@ -1,0 +1,29 @@
+{
+  "name": "markiplier-lore-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build",
+  "scripts": {
+    "build": "tsc",
+    "prettier": "prettier **.json src deno --write",
+    "lint": "eslint src deno mod.ts",
+    "lint:fix": "eslint src deno mod.ts --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "higa": "^0.1.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
+    "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.1",
+    "typescript": "4.5.5"
+  }
+}
