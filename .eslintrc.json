@@ -22,7 +22,7 @@
     "prettier/prettier": "error",
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
-    "no-console": "warn",
+    "no-console": "off",
     "no-process-exit": "off",
     "node/no-missing-import": "off",
     "node/no-unsupported-features/es-syntax": "off",
