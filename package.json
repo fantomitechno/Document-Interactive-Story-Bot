@@ -5,25 +5,33 @@
   "main": "build",
   "scripts": {
     "build": "tsc",
-    "prettier": "prettier **.json src deno --write",
-    "lint": "eslint src deno mod.ts",
-    "lint:fix": "eslint src deno mod.ts --fix"
+    "start": "npm run build && npm run run",
+    "run": "node .",
+    "dev": "nodemon --watch src --ext ts --exec npm run dev:serve",
+    "dev:serve": "ts-node --files src/index.ts -- true",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "higa": "^0.1.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "sqlite3": "^5.0.2",
+    "axios": "^0.26.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
+    "@types/sqlite3": "^3.1.7",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1",
-    "typescript": "4.5.5"
+    "typescript": "4.5.5",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.6.0"
   }
 }
