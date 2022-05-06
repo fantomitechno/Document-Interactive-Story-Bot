@@ -8,7 +8,7 @@ export default new Command(
     description: 'Starts a session on a Markiplier adventure'
   },
   (client, interaction) => {
-    if (client.cache.has(interaction.member?.user.id ?? '')) {
+    if (client.cache.includes(interaction.member?.user.id ?? '')) {
       client.interaction.createInteractionResponse(
         interaction.id,
         interaction.token,
@@ -21,7 +21,7 @@ export default new Command(
       );
       return;
     }
-    client.cache.set(interaction.member?.user.id ?? '', {});
+    client.cache.push(interaction.member?.user.id ?? '');
     client.interaction.createInteractionResponse(
       interaction.id,
       interaction.token,
@@ -77,26 +77,29 @@ export default new Command(
               });
           }
         }
-        client.interaction.editOriginalInteractionResponse(interaction.token, {
-          components: [
-            {
-              type: 1,
-              components: [menu]
-            },
-            {
-              type: 1,
-              components: [
-                {
-                  type: 2,
-                  label: 'Add a starting point',
-                  custom_id: 'create_start',
-                  style: 1
-                }
-              ]
-            }
-          ],
-          content: 'Select a starting point'
-        });
+        await client.interaction.editOriginalInteractionResponse(
+          interaction.token,
+          {
+            components: [
+              {
+                type: 1,
+                components: [menu]
+              },
+              {
+                type: 1,
+                components: [
+                  {
+                    type: 2,
+                    label: 'Add a starting point',
+                    custom_id: 'create_start',
+                    style: 1
+                  }
+                ]
+              }
+            ],
+            content: 'Select a starting point'
+          }
+        );
       }
     );
     return;

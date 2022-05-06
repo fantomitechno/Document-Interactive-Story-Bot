@@ -1,5 +1,6 @@
 import { TextInput } from 'higa';
 import { Modal } from '../bases';
+import { next } from '../utils';
 
 export default new Modal('create_start', (client, interaction) => {
   if (interaction.data?.components?.length !== 2) return;
@@ -42,15 +43,9 @@ export default new Modal('create_start', (client, interaction) => {
     client.db.run(
       `INSERT INTO start (video, description) VALUES ('${id}', "${description}")`
     );
-    client.interaction.createInteractionResponse(
-      interaction.id,
-      interaction.token,
-      {
-        type: 4,
-        data: {
-          content: 'Registred start point...'
-        }
-      }
+    client.db.run(
+      `INSERT INTO videos (video, description) VALUES ('${id}', "${description}")`
     );
+    next(client, interaction, id);
   });
 });
