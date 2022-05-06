@@ -17,7 +17,7 @@ export default new Button('end', (client, interaction) => {
       ''
     )}'`
   );
-  client.cache.slice(
+  client.cache.splice(
     client.cache.indexOf(interaction.member?.user.id ?? ''),
     1
   );

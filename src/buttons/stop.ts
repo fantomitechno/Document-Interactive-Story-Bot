@@ -11,7 +11,7 @@ export default new Button('stop', (client, interaction) => {
       }
     }
   );
-  client.cache.slice(
+  client.cache.splice(
     client.cache.indexOf(interaction.member?.user.id ?? ''),
     1
   );
