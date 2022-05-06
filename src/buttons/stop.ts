@@ -5,10 +5,15 @@ export default new Button('stop', (client, interaction) => {
     interaction.id,
     interaction.token,
     {
-      type: 4,
-      data: {
-        content: 'You stopped your session for now ;)'
-      }
+      type: 6
+    }
+  );
+  client.channel.editMessage(
+    interaction.message?.channel_id ?? '',
+    interaction.message?.id ?? '',
+    {
+      content: 'You stopped your session for now ;)',
+      components: []
     }
   );
   client.cache.splice(
