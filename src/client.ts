@@ -22,7 +22,7 @@ export class Bot extends Client {
   init = async () => {
     this.db.run(`
       CREATE TABLE IF NOT EXISTS start (
-        video TEXT,
+        video TEXT PRIMARY KEY,
         description TEXT,
         choice_1 INTEGER DEFAULT NULL,
         choice_2 INTEGER DEFAULT NULL,
@@ -33,8 +33,7 @@ export class Bot extends Client {
 
     this.db.run(`
       CREATE TABLE IF NOT EXISTS videos (
-        start TEXT,
-        video TEXT,
+        video TEXT PRIMARY KEY,
         description TEXT,
         choice_1 INTEGER DEFAULT NULL,
         choice_2 INTEGER DEFAULT NULL,
