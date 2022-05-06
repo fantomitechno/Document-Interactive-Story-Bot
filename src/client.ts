@@ -1,6 +1,6 @@
 import { Client, ClientOptions } from 'higa';
 import { Database } from 'sqlite3';
-import { Button, Command } from './bases';
+import { Button, Command, Modal, SelectMenu } from './bases';
 import { readdirSync } from 'fs';
 
 export class Bot extends Client {
@@ -8,6 +8,8 @@ export class Bot extends Client {
 
   commands = new Map<string, Command>();
   buttons = new Map<string, Button>();
+  modals = new Map<string, Modal>();
+  selects = new Map<string, SelectMenu>();
 
   appId = '';
 
@@ -20,7 +22,6 @@ export class Bot extends Client {
   init = async () => {
     this.db.run(`
       CREATE TABLE IF NOT EXISTS start (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
         video TEXT,
         description TEXT,
         choice_1 INTEGER DEFAULT NULL,
@@ -32,8 +33,7 @@ export class Bot extends Client {
 
     this.db.run(`
       CREATE TABLE IF NOT EXISTS videos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        start_id INTEGER,
+        start TEXT,
         video TEXT,
         description TEXT,
         choice_1 INTEGER DEFAULT NULL,
@@ -58,14 +58,29 @@ export class Bot extends Client {
     readdirSync(pathButtons).forEach(async (file) => {
       if (file.endsWith('.ts') || file.endsWith('.js')) {
         const { default: button } = await import(`./buttons/${file}`);
-        this.buttons.set(button ?? '', button);
+        this.buttons.set(button.custom_id_start ?? '', button);
       }
     });
 
-    this.appId = (await this.user.getCurrentUser()).id;
+    const pathModals = `${rootDir}/modals`;
+    readdirSync(pathModals).forEach(async (file) => {
+      if (file.endsWith('.ts') || file.endsWith('.js')) {
+        const { default: modal } = await import(`./modals/${file}`);
+        this.modals.set(modal.custom_id_start ?? '', modal);
+      }
+    });
+
+    const pathSelects = `${rootDir}/selects`;
+    readdirSync(pathSelects).forEach(async (file) => {
+      if (file.endsWith('.ts') || file.endsWith('.js')) {
+        const { default: select } = await import(`./selects/${file}`);
+        this.selects.set(select.custom_id_start ?? '', select);
+      }
+    });
   };
 
   syncCommands = async () => {
+    this.appId = (await this.user.getCurrentUser()).id;
     for (const c of this.commands.values()) {
       this.applicationCommand.createGlobalApplicationCommand(
         this.appId,

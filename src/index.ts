@@ -1,11 +1,9 @@
-import { SelectMenu, TextInput } from 'higa';
 import { config } from 'dotenv';
-config();
-import axios from 'axios';
-import { db } from './database';
+
+import { Button, Modal, SelectMenu } from './bases';
 import { Bot } from './client';
 
-const cache: string[] = [];
+config();
 
 const client = new Bot({
   token: process.env.DISCORD ?? '',
@@ -29,59 +27,42 @@ client.on('INTERACTION_CREATE', (interaction) => {
 
     command.run(client, interaction);
   } else if (interaction.type === 3) {
-    const button = client.buttons.get;
-  } else if (interaction.type === 5 && interaction.data?.components) {
-    if (interaction.data?.custom_id === 'start_add_form') {
-      const videoTextInput = <TextInput>(
-        interaction.data.components[0].components[0]
-      );
-      const descriptionTextInput = <TextInput>(
-        interaction.data.components[1].components[0]
-      );
-      const video = videoTextInput.value;
-      const description = descriptionTextInput.value;
-      if (!video?.startsWith(`https://youtu.be/`)) {
-        client.interaction.createInteractionResponse(
-          interaction.id,
-          interaction.token,
-          {
-            type: 4,
-            data: {
-              content: 'Invalid video link'
-            }
-          }
-        );
-        return;
-      }
-      const id = video.replace(`https://youtu.be/`, ``);
-      db.get(`SELECT * FROM start WHERE video = ${id}`, (_err, row) => {
-        if (row) {
-          client.interaction.createInteractionResponse(
-            interaction.id,
-            interaction.token,
-            {
-              type: 4,
-              data: {
-                content: 'Already existing video link'
-              }
-            }
-          );
-          return;
+    if (interaction.data?.component_type === 2) {
+      const buttons = client.buttons.keys();
+      let buttonCommand: Button | undefined;
+      for (const button of buttons) {
+        if (interaction.data?.custom_id?.startsWith(button)) {
+          buttonCommand = client.buttons.get(button);
+          break;
         }
-        db.run(
-          `INSERT INTO start (video, description) VALUES ('${id}', '${description}')`
-        );
-        client.interaction.createInteractionResponse(
-          interaction.id,
-          interaction.token,
-          {
-            type: 4,
-            data: {
-              content: 'Registred start point...'
-            }
-          }
-        );
-      });
+      }
+      if (!buttonCommand) return;
+
+      buttonCommand.run(client, interaction);
+    } else if (interaction.data?.component_type === 3) {
+      const selects = client.selects.keys();
+      let selectCommand: SelectMenu | undefined;
+      for (const select of selects) {
+        if (interaction.data?.custom_id?.startsWith(select)) {
+          selectCommand = client.selects.get(select);
+          break;
+        }
+      }
+      if (!selectCommand) return;
+
+      selectCommand.run(client, interaction);
     }
+  } else if (interaction.type === 5) {
+    const modals = client.modals.keys();
+    let modalCommand: Modal | undefined;
+    for (const modal of modals) {
+      if (interaction.data?.custom_id?.startsWith(modal)) {
+        modalCommand = client.modals.get(modal);
+        break;
+      }
+    }
+    if (!modalCommand) return;
+
+    modalCommand.run(client, interaction);
   }
 });
