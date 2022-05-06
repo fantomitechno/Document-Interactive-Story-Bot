@@ -4,7 +4,7 @@ import { Button, Command, Modal, SelectMenu } from './bases';
 import { readdirSync } from 'fs';
 
 export class Bot extends Client {
-  cache = new Map();
+  cache: string[] = [];
 
   commands = new Map<string, Command>();
   buttons = new Map<string, Button>();
