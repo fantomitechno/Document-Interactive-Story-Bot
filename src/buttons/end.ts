@@ -5,10 +5,15 @@ export default new Button('end', (client, interaction) => {
     interaction.id,
     interaction.token,
     {
-      type: 4,
-      data: {
-        content: 'You setted this as an ending!'
-      }
+      type: 6
+    }
+  );
+  client.channel.editMessage(
+    interaction.message?.channel_id ?? '',
+    interaction.message?.id ?? '',
+    {
+      content: 'You setted this as an ending!',
+      components: []
     }
   );
   client.db.run(
