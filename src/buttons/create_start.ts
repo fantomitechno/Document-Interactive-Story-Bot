@@ -1,6 +1,6 @@
 import { Button } from '../bases';
 
-export default new Button('start_add', (client, interaction) => {
+export default new Button('create_start', (client, interaction) => {
   client.interaction.createInteractionResponse(
     interaction.id,
     interaction.token,
@@ -8,7 +8,7 @@ export default new Button('start_add', (client, interaction) => {
       type: 9,
       data: {
         title: 'Create a starting point',
-        custom_id: 'start_add_form',
+        custom_id: 'create_start',
         components: [
           {
             type: 1,
