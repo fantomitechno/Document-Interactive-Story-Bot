@@ -170,6 +170,7 @@ const next = async (client: Bot, interaction: Interaction, video: string) => {
                     }
                   );
                 } else {
+                  client.cache.delete(interaction.member?.user.id ?? '');
                   client.interaction.editOriginalInteractionResponse(
                     interaction.token,
                     {

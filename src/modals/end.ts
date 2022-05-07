@@ -6,7 +6,7 @@ export default new Modal('end', (client, interaction) => {
   const nameInput = <TextInput>interaction.data.components[0].components[0];
   const name = <string>nameInput.value;
   const custom_id_info =
-    interaction.data.custom_id?.replace('end_', '').split('_') ?? [];
+    interaction.data.custom_id?.replace('end#', '').split('#') ?? [];
   const video = custom_id_info[2];
   const channel_id = custom_id_info[1];
   const msg_id = custom_id_info[0];

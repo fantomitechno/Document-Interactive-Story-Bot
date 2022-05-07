@@ -42,7 +42,7 @@ export default new SelectMenu('ending_choose', async (client, interaction) => {
                   const title = res.data.items[0].snippet.title;
                   embed.fields?.push({
                     name: row.name,
-                    value: `[${title}](https://youtube.be/${row.video})`,
+                    value: `[${title}](https://youtu.be/${row.video})`,
                     inline: true
                   });
                 });

@@ -7,9 +7,9 @@ export default new Button('end', (client, interaction) => {
     {
       type: 9,
       data: {
-        custom_id: `end_${interaction.message?.id}_${
+        custom_id: `end#${interaction.message?.id}#${
           interaction.message?.channel_id
-        }_${interaction.data?.custom_id?.replace(`end_`, '')}`,
+        }#${interaction.data?.custom_id?.replace(`end_`, '')}`,
         title: 'Name the ending!',
         components: [
           {
