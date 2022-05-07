@@ -24,7 +24,6 @@ export default new Modal('end', (client, interaction) => {
           }
         }
       );
-      client.cache.delete(interaction.member?.user.id ?? '');
       return;
     } else {
       client.db.run(

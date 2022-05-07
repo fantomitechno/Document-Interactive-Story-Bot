@@ -1,6 +1,12 @@
 import { Button } from '../bases';
 
 export default new Button('end', (client, interaction) => {
+  console.log(
+    `end#${interaction.message?.id}#${
+      interaction.message?.channel_id
+    }#${interaction.data?.custom_id?.replace(`end_`, '')}`
+  );
+  console.log(client.cache.entries());
   client.interaction.createInteractionResponse(
     interaction.id,
     interaction.token,
