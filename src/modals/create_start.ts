@@ -23,10 +23,13 @@ export default new Modal('create_start', (client, interaction) => {
         }
       }
     );
+    setTimeout(() => {
+      client.interaction.deleteOriginalInteractionResponse(interaction.token);
+    }, 2000);
     return;
   }
   const id = video.replace(`https://youtu.be/`, ``);
-  client.db.get(`SELECT * FROM start WHERE video = ${id}`, (_err, row) => {
+  client.db.get(`SELECT * FROM start WHERE video = '${id}'`, (_err, row) => {
     if (row) {
       client.interaction.createInteractionResponse(
         interaction.id,
@@ -38,6 +41,9 @@ export default new Modal('create_start', (client, interaction) => {
           }
         }
       );
+      setTimeout(() => {
+        client.interaction.deleteOriginalInteractionResponse(interaction.token);
+      }, 2000);
       return;
     }
     client.db.run(
@@ -46,6 +52,7 @@ export default new Modal('create_start', (client, interaction) => {
     client.db.run(
       `INSERT INTO videos (video, description) VALUES ('${id}', "${description}")`
     );
+    client.cache.set(interaction.member?.user.id ?? '', id);
     next(client, interaction, id);
   });
 });

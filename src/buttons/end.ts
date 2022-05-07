@@ -5,7 +5,26 @@ export default new Button('end', (client, interaction) => {
     interaction.id,
     interaction.token,
     {
-      type: 6
+      type: 9,
+      data: {
+        custom_id: `end_${interaction.message?.id}_${
+          interaction.message?.channel_id
+        }_${interaction.data?.custom_id?.replace(`end_`, '')}`,
+        title: 'Name the ending!',
+        components: [
+          {
+            type: 1,
+            components: [
+              {
+                type: 4,
+                custom_id: 'Name',
+                label: 'Name',
+                style: 1
+              }
+            ]
+          }
+        ]
+      }
     }
   );
   client.channel.editMessage(
@@ -13,7 +32,19 @@ export default new Button('end', (client, interaction) => {
     interaction.message?.id ?? '',
     {
       content: 'You setted this as an ending!',
-      components: []
+      components: [
+        {
+          type: 1,
+          components: [
+            {
+              type: 2,
+              label: 'Name the end',
+              custom_id: interaction.data?.custom_id ?? '',
+              style: 4
+            }
+          ]
+        }
+      ]
     }
   );
   client.db.run(
@@ -21,10 +52,6 @@ export default new Button('end', (client, interaction) => {
       `end_`,
       ''
     )}'`
-  );
-  client.cache.splice(
-    client.cache.indexOf(interaction.member?.user.id ?? ''),
-    1
   );
   return;
 });

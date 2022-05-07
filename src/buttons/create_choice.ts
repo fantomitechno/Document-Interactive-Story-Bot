@@ -27,7 +27,7 @@ export default new Button('create_choice', (client, interaction) => {
               {
                 type: 4,
                 label: 'Description',
-                style: 1,
+                style: 2,
                 custom_id: 'video_desc'
               }
             ]

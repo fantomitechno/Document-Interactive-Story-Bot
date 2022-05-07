@@ -8,7 +8,7 @@ export default new Command(
     description: 'Starts a session on a Markiplier adventure'
   },
   (client, interaction) => {
-    if (client.cache.includes(interaction.member?.user.id ?? '')) {
+    if (client.cache.has(interaction.member?.user.id ?? '')) {
       client.interaction.createInteractionResponse(
         interaction.id,
         interaction.token,
@@ -21,7 +21,7 @@ export default new Command(
       );
       return;
     }
-    client.cache.push(interaction.member?.user.id ?? '');
+    client.cache.set(interaction.member?.user.id ?? '', '');
     client.interaction.createInteractionResponse(
       interaction.id,
       interaction.token,

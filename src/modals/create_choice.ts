@@ -26,7 +26,7 @@ export default new Modal('create_choice', (client, interaction) => {
     return;
   }
   const id = video.replace(`https://youtu.be/`, ``);
-  client.db.get(`SELECT * FROM videos WHERE video = ${id}`, (_err, row) => {
+  client.db.get(`SELECT * FROM videos WHERE video = '${id}'`, (_err, row) => {
     if (!row)
       client.db.run(
         `INSERT INTO videos (video, description) VALUES ('${id}', "${description}")`
@@ -53,17 +53,17 @@ export default new Modal('create_choice', (client, interaction) => {
           );
         else if (!row.choice_3)
           client.db.run(
-            `UPDATE videos SET choice_3 = '${id}' WHERE video = ${interaction.data?.custom_id?.replace(
+            `UPDATE videos SET choice_3 = '${id}' WHERE video = '${interaction.data?.custom_id?.replace(
               `create_choice_`,
               ''
-            )}`
+            )}'`
           );
         else if (!row.choice_4)
           client.db.run(
-            `UPDATE videos SET choice_4 = '${id}' WHERE video = ${interaction.data?.custom_id?.replace(
+            `UPDATE videos SET choice_4 = '${id}' WHERE video = '${interaction.data?.custom_id?.replace(
               `create_choice_`,
               ''
-            )}`
+            )}'`
           );
         else throw new Error('Too many choices');
       }

@@ -4,7 +4,7 @@ import { Button, Command, Modal, SelectMenu } from './bases';
 import { readdirSync } from 'fs';
 
 export class Bot extends Client {
-  cache: string[] = [];
+  cache = new Map<string, string>();
 
   commands = new Map<string, Command>();
   buttons = new Map<string, Button>();
@@ -39,6 +39,14 @@ export class Bot extends Client {
         choice_2 INTEGER DEFAULT NULL,
         choice_3 INTEGER DEFAULT NULL,
         choice_4 INTEGER DEFAULT NULL
+      );
+    `);
+
+    this.db.run(`
+      CREATE TABLE IF NOT EXISTS ends (
+        name TEXT,
+        video TEXT PRIMARY KEY,
+        start TEXT
       );
     `);
 

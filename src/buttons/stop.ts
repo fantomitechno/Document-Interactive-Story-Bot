@@ -16,9 +16,6 @@ export default new Button('stop', (client, interaction) => {
       components: []
     }
   );
-  client.cache.splice(
-    client.cache.indexOf(interaction.member?.user.id ?? ''),
-    1
-  );
+  client.cache.delete(interaction.member?.user.id ?? '');
   return;
 });

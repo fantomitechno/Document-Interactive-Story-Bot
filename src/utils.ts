@@ -145,10 +145,38 @@ const next = async (client: Bot, interaction: Interaction, video: string) => {
               }
             );
           } else {
-            client.interaction.editOriginalInteractionResponse(
-              interaction.token,
-              {
-                content: `You've got an ending!`
+            client.db.get(
+              `SELECT name FROM ends WHERE video = '${video}'`,
+              (_err, row) => {
+                if (!row) {
+                  client.interaction.editOriginalInteractionResponse(
+                    interaction.token,
+                    {
+                      content: `No choices for this video`,
+                      components: [
+                        {
+                          type: 1,
+                          components: [
+                            {
+                              type: 2,
+                              label:
+                                'Name the end (will trigger the ending protocol)',
+                              custom_id: 'end_' + video,
+                              style: 4
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  );
+                } else {
+                  client.interaction.editOriginalInteractionResponse(
+                    interaction.token,
+                    {
+                      content: `You've got an ending!\n\n**${row.name}**`
+                    }
+                  );
+                }
               }
             );
           }
