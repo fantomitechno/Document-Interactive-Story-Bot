@@ -1,6 +1,5 @@
 import { TextInput } from 'higa';
 import { Modal } from '../bases';
-import { next } from '../utils';
 
 export default new Modal('end', (client, interaction) => {
   if (interaction.data?.components?.length !== 1) return;
