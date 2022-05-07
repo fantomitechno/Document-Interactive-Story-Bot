@@ -13,6 +13,7 @@ export default new Modal('end', (client, interaction) => {
   const msg_id = custom_id_info[0];
   const start = client.cache.get(interaction.member?.user.id ?? '');
   client.db.get(`SELECT * FROM ends WHERE video = '${video}'`, (_err, row) => {
+    client.cache.delete(interaction.member?.user.id ?? '');
     if (row) {
       client.interaction.createInteractionResponse(
         interaction.id,
